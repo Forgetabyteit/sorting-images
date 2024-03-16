@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Sorter</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: black;
+    }
+    img {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+  <img id="image" src="">
+
+  <script>
+    const { ipcRenderer } = require('electron');
+
+    ipcRenderer.on('display-image', (event, imagePath) => {
+      const imageElement = document.getElementById('image');
+      imageElement.src = imagePath;
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') {
+        ipcRenderer.send('move-to-disliked');
+      } else if (event.key === 'ArrowRight') {
+        ipcRenderer.send('move-to-liked');
+      }
+    });
+  </script>
+</body>
+</html>
